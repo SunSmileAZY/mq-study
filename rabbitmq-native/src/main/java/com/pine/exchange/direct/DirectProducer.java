@@ -16,6 +16,10 @@ import java.util.concurrent.TimeoutException;
 public class DirectProducer {
 
     public final static String EXCHANGE_NAME = "direct_pine";
+    /**
+     * 声明路由键
+      */
+    public final static String[] routeKeys = {"a", "b", "c"};
 
     public static void main(String[] args) throws IOException,TimeoutException {
 
@@ -38,8 +42,6 @@ public class DirectProducer {
             // 在信道中设置交换器direct/fanout/topic/headers
             channel.exchangeDeclare(EXCHANGE_NAME, BuiltinExchangeType.DIRECT);
             // 声明队列（可在消费者设置）
-            // 声明路由键
-            String[] routeKeys = {"a", "b", "c"};
             int length = routeKeys.length;
             for (int i = 0; i< length; i++){
                 String routeKey = routeKeys[i%length];
@@ -56,9 +58,6 @@ public class DirectProducer {
             channel.close();
             connection.close();
         }
-
-
-
 
     }
 

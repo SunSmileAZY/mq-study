@@ -5,8 +5,10 @@ import com.rabbitmq.client.*;
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
+import static com.pine.exchange.direct.DirectProducer.routeKeys;
+
 /**
- *类说明：一个连接多个信道
+ * 类说明：一个连接多个信道
  */
 public class MultiChannelConsumer {
 
@@ -29,9 +31,8 @@ public class MultiChannelConsumer {
                 final String consumerName =  Thread.currentThread().getName()+"-all";
 
                 /*队列绑定到交换器上时，是允许绑定多个路由键的，也就是多重绑定*/
-                String[] routekeys={"king","mark","james"};
-                for(String routekey:routekeys){
-                    channel.queueBind(queueName,DirectProducer.EXCHANGE_NAME, routekey);
+                for(String routeKey:routeKeys){
+                    channel.queueBind(queueName,DirectProducer.EXCHANGE_NAME, routeKey);
                 }
                 System.out.println("["+consumerName+"] Waiting for messages:");
 

@@ -15,39 +15,24 @@ import java.util.concurrent.TimeoutException;
  **/
 public class DirectProducer {
 
-    public final static String EXCHANGE_NAME = "direct_pine";
-    /**
-     * 声明路由键
-      */
-    public final static String[] routeKeys = {"a", "b", "c"};
-
     public static void main(String[] args) throws IOException,TimeoutException {
 
-        // 创建连接工厂
-        ConnectionFactory connectionFactory = new ConnectionFactory();
-        // 设置地址
-        connectionFactory.setHost("47.93.206.149");
-        // 不写端口号默认5672
-        connectionFactory.setPort(20010);
-        // 有用户名密码记得设置
-        connectionFactory.setUsername("admin");
-        connectionFactory.setPassword("admin");
         Connection connection = null;
         Channel channel = null;
         try {
             // 创建连接
-            connection = connectionFactory.newConnection();
+            connection = CommonUtils.getConnection();
             // 创建channel信道
             channel = connection.createChannel();
             // 在信道中设置交换器direct/fanout/topic/headers
-            channel.exchangeDeclare(EXCHANGE_NAME, BuiltinExchangeType.DIRECT);
+            channel.exchangeDeclare(CommonUtils.EXCHANGE_NAME, BuiltinExchangeType.DIRECT);
             // 声明队列（可在消费者设置）
-            int length = routeKeys.length;
+            int length = CommonUtils.routeKeys.length;
             for (int i = 0; i< length; i++){
-                String routeKey = routeKeys[i%length];
+                String routeKey = CommonUtils.routeKeys[i%length];
                 String msg = "Hello RabbitMQ direct type " + (i + 1);
                 // 发布消息
-                channel.basicPublish(EXCHANGE_NAME, routeKey, null, msg.getBytes());
+                channel.basicPublish(CommonUtils.EXCHANGE_NAME, routeKey, null, msg.getBytes());
                 System.out.println("send: " + routeKey + ":" + msg);
             }
         } catch (IOException e) {

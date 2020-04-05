@@ -5,8 +5,6 @@ import com.rabbitmq.client.*;
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
-import static com.pine.exchange.direct.DirectProducer.routeKeys;
-
 /**
  * 消费端
  * @author anzy
@@ -16,29 +14,21 @@ import static com.pine.exchange.direct.DirectProducer.routeKeys;
 public class NormalConsumer {
 
     public static void main(String[] argv) throws IOException, TimeoutException {
-        //创建连接、连接到RabbitMQ
-        ConnectionFactory connectionFactory = new ConnectionFactory();
-        //设置下连接工厂的连接地址(使用默认端口5672)
-        connectionFactory.setHost("47.93.206.149");
-        // 不写端口号默认5672
-        connectionFactory.setPort(20010);
-        connectionFactory.setUsername("admin");
-        connectionFactory.setPassword("admin");
         //创建连接
-        Connection connection =connectionFactory.newConnection();
+        Connection connection = CommonUtils.getConnection();
         //创建信道
         Channel channel =connection.createChannel();
 
         //在信道中设置交换器
-        channel.exchangeDeclare(DirectProducer.EXCHANGE_NAME,BuiltinExchangeType.DIRECT);
+        channel.exchangeDeclare(CommonUtils.EXCHANGE_NAME,BuiltinExchangeType.DIRECT);
 
         //申明队列（放在消费者中去做）
         String queueName="queue-a";
         channel.queueDeclare(queueName,false,false,false,null);
 
         //绑定：将队列(queuq-a)与交换器通过 路由键 绑定(a)
-        String routeKey = routeKeys[0];
-        channel.queueBind(queueName,DirectProducer.EXCHANGE_NAME,routeKey);
+        String routeKey = CommonUtils.routeKeys[0];
+        channel.queueBind(queueName,CommonUtils.EXCHANGE_NAME,routeKey);
         System.out.println("waiting for message ......");
 
         //申明一个消费者
@@ -52,7 +42,6 @@ public class NormalConsumer {
         // 消息者正是开始在指定队列上消费。(queue-king)
         // 这里第二个参数是自动确认参数，如果是true则是自动确认
         channel.basicConsume(queueName,true,consumer);
-
     }
 
 }

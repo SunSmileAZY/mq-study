@@ -5,7 +5,7 @@ import com.rabbitmq.client.*;
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
-import static com.pine.exchange.direct.DirectProducer.routeKeys;
+import static com.pine.exchange.direct.CommonUtils.getConnection;
 
 /**
  * 类说明：一个连接多个信道
@@ -23,7 +23,7 @@ public class MultiChannelConsumer {
                 /*创建一个信道，意味着每个线程单独一个信道*/
                 Channel channel = connection.createChannel();
                 //信道设置交换器类型(direct)
-                channel.exchangeDeclare(DirectProducer.EXCHANGE_NAME,BuiltinExchangeType.DIRECT);
+                channel.exchangeDeclare(CommonUtils.EXCHANGE_NAME,BuiltinExchangeType.DIRECT);
                 // 声明一个随机队列
                  String queueName = channel.queueDeclare().getQueue();
                 //String queueName = "queue-a";      // 同一个队列
@@ -31,8 +31,8 @@ public class MultiChannelConsumer {
                 final String consumerName =  Thread.currentThread().getName()+"-all";
 
                 /*队列绑定到交换器上时，是允许绑定多个路由键的，也就是多重绑定*/
-                for(String routeKey:routeKeys){
-                    channel.queueBind(queueName,DirectProducer.EXCHANGE_NAME, routeKey);
+                for(String routeKey:CommonUtils.routeKeys){
+                    channel.queueBind(queueName,CommonUtils.EXCHANGE_NAME, routeKey);
                 }
                 System.out.println("["+consumerName+"] Waiting for messages:");
 
@@ -55,17 +55,8 @@ public class MultiChannelConsumer {
 
     public static void main(String[] argv) throws IOException,
             InterruptedException, TimeoutException {
-        //连接工厂
-        ConnectionFactory connectionFactory = new ConnectionFactory();
-        // 设置地址
-        connectionFactory.setHost("47.93.206.149");
-        // 不写端口号默认5672
-        connectionFactory.setPort(20010);
-        // 有用户名密码记得设置
-        connectionFactory.setUsername("admin");
-        connectionFactory.setPassword("admin");
-        // 打开连接和创建频道，与发送端一样
-        Connection connection = connectionFactory.newConnection();
+        Connection connection = CommonUtils.getConnection();
+
         //一个连接多个信道
         for(int i=0;i<2;i++){
             /*将连接作为参数，传递给每个线程*/
@@ -73,4 +64,5 @@ public class MultiChannelConsumer {
             worker.start();
         }
     }
+
 }

@@ -16,7 +16,6 @@ import java.util.concurrent.TimeoutException;
 public class DirectProducer {
 
     public static void main(String[] args) throws IOException,TimeoutException {
-
         Connection connection = null;
         Channel channel = null;
         try {

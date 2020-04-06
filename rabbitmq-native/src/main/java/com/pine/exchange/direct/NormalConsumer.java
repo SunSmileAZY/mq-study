@@ -15,15 +15,13 @@ import java.util.concurrent.TimeoutException;
 public class NormalConsumer {
 
     public static void main(String[] argv) throws IOException, TimeoutException {
-        //创建连接
+        // 创建连接
         Connection connection = CommonUtils.getConnection();
-        //创建信道
+        // 创建信道
         Channel channel =connection.createChannel();
-
-        //在信道中设置交换器
+        // 在信道中设置交换器
         channel.exchangeDeclare(CommonUtils.EXCHANGE_NAME,BuiltinExchangeType.DIRECT);
-
-        //申明队列（放在消费者中去做）
+        // 声明队列（放在消费者中去做）
         String queueName="queue-a";
         channel.queueDeclare(queueName,false,false,false,null);
 

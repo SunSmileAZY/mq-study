@@ -1,5 +1,6 @@
 package com.pine.producerbalance.backupexchange;
 
+import com.pine.exchange.CommonUtils;
 import com.rabbitmq.client.BuiltinExchangeType;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
@@ -20,14 +21,9 @@ public class BackupExProducer {
 
     public static void main(String[] args)
             throws IOException, TimeoutException {
-        /**
-         * 创建连接连接到RabbitMQ
-         */
-        ConnectionFactory factory = new ConnectionFactory();
-        factory.setHost("127.0.0.1");
 
         // 创建一个连接
-        Connection connection = factory.newConnection();
+        Connection connection = CommonUtils.getConnection();
         // 创建一个信道
         Channel channel = connection.createChannel();
         //TODO
@@ -35,11 +31,9 @@ public class BackupExProducer {
         Map<String,Object> argsMap = new HashMap<String,Object>();
         argsMap.put("alternate-exchange",BAK_EXCHANGE_NAME);
         //主交换器
-        channel.exchangeDeclare(EXCHANGE_NAME,"direct",
-                false,false,argsMap);
+        channel.exchangeDeclare(EXCHANGE_NAME,"direct", false,false,argsMap);
         //备用交换器
-        channel.exchangeDeclare(BAK_EXCHANGE_NAME,BuiltinExchangeType.FANOUT,
-                true,false,null);
+        channel.exchangeDeclare(BAK_EXCHANGE_NAME,BuiltinExchangeType.FANOUT, true,false,null);
 
         //所有的消息
         String[] routekeys={"king","mark","james"};

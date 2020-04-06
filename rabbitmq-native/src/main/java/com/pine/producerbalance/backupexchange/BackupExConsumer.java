@@ -1,5 +1,6 @@
 package com.pine.producerbalance.backupexchange;
 
+import com.pine.exchange.CommonUtils;
 import com.rabbitmq.client.*;
 
 import java.io.IOException;
@@ -13,11 +14,9 @@ public class BackupExConsumer {
 
     public static void main(String[] argv)
             throws IOException, TimeoutException {
-        ConnectionFactory factory = new ConnectionFactory();
-        factory.setHost("127.0.0.1");
 
         // 打开连接和创建频道，与发送端一样
-        Connection connection = factory.newConnection();
+        Connection connection = CommonUtils.getConnection();
         final Channel channel = connection.createChannel();
         channel.exchangeDeclare(BackupExProducer.BAK_EXCHANGE_NAME,
                 BuiltinExchangeType.FANOUT,

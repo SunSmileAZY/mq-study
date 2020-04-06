@@ -1,4 +1,4 @@
-package com.pine.exchange.direct;
+package com.pine.exchange;
 
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;

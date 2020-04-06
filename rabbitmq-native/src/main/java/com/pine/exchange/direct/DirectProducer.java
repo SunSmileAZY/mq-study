@@ -1,9 +1,9 @@
 package com.pine.exchange.direct;
 
+import com.pine.exchange.CommonUtils;
 import com.rabbitmq.client.BuiltinExchangeType;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
-import com.rabbitmq.client.ConnectionFactory;
 
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
@@ -28,7 +28,7 @@ public class DirectProducer {
             channel.exchangeDeclare(CommonUtils.EXCHANGE_NAME, BuiltinExchangeType.DIRECT);
             // 声明队列（可在消费者设置）
             int length = CommonUtils.routeKeys.length;
-            for (int i = 0; i< length; i++){
+            for (int i = 0; i< 8; i++){
                 String routeKey = CommonUtils.routeKeys[i%length];
                 String msg = "Hello RabbitMQ direct type " + (i + 1);
                 // 发布消息

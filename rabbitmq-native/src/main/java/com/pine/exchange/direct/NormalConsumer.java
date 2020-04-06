@@ -1,5 +1,6 @@
 package com.pine.exchange.direct;
 
+import com.pine.exchange.CommonUtils;
 import com.rabbitmq.client.*;
 
 import java.io.IOException;

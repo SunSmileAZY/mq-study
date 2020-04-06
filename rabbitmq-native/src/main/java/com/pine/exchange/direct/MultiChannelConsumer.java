@@ -1,11 +1,10 @@
 package com.pine.exchange.direct;
 
+import com.pine.exchange.CommonUtils;
 import com.rabbitmq.client.*;
 
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
-
-import static com.pine.exchange.direct.CommonUtils.getConnection;
 
 /**
  * 类说明：一个连接多个信道

@@ -1,5 +1,6 @@
 package com.pine.exchange.direct;
 
+import com.pine.exchange.CommonUtils;
 import com.rabbitmq.client.*;
 
 import java.io.IOException;
@@ -31,7 +32,7 @@ public class MultiConsumerOneQueue {
                 final String consumerName =  Thread.currentThread().getName();
 
                 /*队列绑定到交换器上时，是允许绑定多个路由键的，也就是多重绑定*/
-                String[] routekeys={"king","mark","james"};
+                String[] routekeys= CommonUtils.routeKeys;
                 for(String routekey:routekeys){
                     channel.queueBind(queueName,CommonUtils.EXCHANGE_NAME,
                             routekey);

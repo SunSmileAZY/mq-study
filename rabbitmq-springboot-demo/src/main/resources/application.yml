@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: rabbitmq-springboot
+  rabbitmq:
+    host: 47.93.206.149
+    port: 20010
+    username: admin
+    password: admin
+    publisher-confirms: true
+    virtual-host: /

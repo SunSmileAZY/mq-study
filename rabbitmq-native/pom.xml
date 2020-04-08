@@ -11,5 +11,12 @@
 
     <artifactId>rabbitmq-native</artifactId>
 
-
+    <!-- RabbitMQ原生客户端-->
+    <dependencies>
+        <dependency>
+            <groupId>com.rabbitmq</groupId>
+            <artifactId>amqp-client</artifactId>
+            <version>5.0.0</version>
+        </dependency>
+    </dependencies>
 </project>

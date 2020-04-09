@@ -1,6 +1,6 @@
 package com.pine.fanout;
 
-import cn.enjoyedu.RmConst;
+import com.pine.consts.RabbitmqConst;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -18,7 +18,7 @@ public class FanoutSender {
     public void send(String msg) {
         String sendMsg = msg +"---"+ System.currentTimeMillis();;
         System.out.println("FanoutSender : " + sendMsg);
-        this.rabbitTemplate.convertAndSend(RmConst.EXCHANGE_FANOUT, "",sendMsg);
+        this.rabbitTemplate.convertAndSend(RabbitmqConst.EXCHANGE_FANOUT, "",sendMsg);
     }
 
 }

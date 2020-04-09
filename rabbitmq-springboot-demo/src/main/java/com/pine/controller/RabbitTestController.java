@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/rabbit")
-public class RabbitTest {
+public class RabbitTestController {
 
     @Autowired
     private DefaultSender defaultSender;

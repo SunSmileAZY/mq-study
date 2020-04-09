@@ -69,11 +69,20 @@ public class RabbitmqConfig {
         return template;
     }
 
-    //===============使用了RabbitMQ系统缺省的交换器==========
+    //===============使用了RabbitMQ系统缺省的交换器 direct==========
     //绑定键即为队列名称
     @Bean
     public Queue helloQueue() {
         return new Queue(RabbitmqConst.QUEUE_HELLO);
+    }
+
+    @Bean
+    public Binding bindingHelloExchangeMessage() {
+        return BindingBuilder .bind(helloQueue()).to(directExchange()).with(RabbitmqConst.EXCHANGE_DIRECT);
+    }
+    @Bean
+    public DirectExchange directExchange() {
+        return new DirectExchange(RabbitmqConst.EXCHANGE_DIRECT);
     }
 
     @Bean
@@ -96,6 +105,7 @@ public class RabbitmqConfig {
     public TopicExchange exchange() {
         return new TopicExchange(RabbitmqConst.EXCHANGE_TOPIC);
     }
+
 
     @Bean
     public Binding bindingEmailExchangeMessage() {
